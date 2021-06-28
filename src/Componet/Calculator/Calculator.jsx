@@ -2,11 +2,12 @@ import React from 'react';
 import './Calculator.css';
 class Calculator extends React.Component {
   state = {
-    value: '',
+    value: '0',
     res: 0,
     op: '',
     A: 0,
     B: 0,
+    pre:"",
   };
   addvalue = (e) => {
     let val = e.target.value;
@@ -14,14 +15,14 @@ class Calculator extends React.Component {
     val = value + val;
     if (op === '') {
       let A = e.target.value;
-      this.setState({ A: A, res: A, value: val });
+      this.setState({ A: A, res: A, value: A });
     } else {
       let B = e.target.value;
       this.setState({ B: B, value: val });
     }
   };
   calculateres = (e) => {
-    let { op, A, B, res } = this.state;
+    let { op, A, B } = this.state;
     if (B === 0) {
       return A;
     }
@@ -52,7 +53,7 @@ class Calculator extends React.Component {
   applyopration = (e) => {
     let expression = e.target.value;
     let val = e.target.value;
-    let { value, res, A, B } = this.state;
+    let { value} = this.state;
     value = value + val;
     let c = this.calculateres();
     switch (expression) {
@@ -72,7 +73,31 @@ class Calculator extends React.Component {
         alert('wrong value');
     }
   };
+  allclear=(e)=>{
+    this.setState({
+    value: '0',
+    res: 0,
+    op: '',
+    A: 0,
+    B: 0,
+  })
+  }
 
+  clearprev= ()=>
+  {
+    alert("run")
+    // let {value,res,op,A,B}=this.state;
+    // console.log("value:",value," res:",res," op:",op," A:",A," B:",B);
+     this.setState( prevState => {
+      return{
+        //value:prevState.value,
+        pre:prevState.value,
+      }
+    }
+    )
+    let {pre}=this.state;
+    console.log("value:",pre);
+  }
   render() {
     const { value } = this.state;
     return (
@@ -125,6 +150,13 @@ class Calculator extends React.Component {
               *
             </button>
           </div>
+          
+<button onClick={this.clearprev} value='clear'>
+            <img alt="" src="https://img.icons8.com/material-sharp/24/000000/clear-symbol--v1.png"/>
+          </button>
+          <button onClick={this.allclear} value='ac'>
+            AC
+          </button>
           <button onClick={this.calculateres} value='='>
             =
           </button>
